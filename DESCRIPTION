@@ -1,0 +1,33 @@
+Package: ccLRforR
+Type: Package
+Title: Case-Control Likelihood Ratio (ccLR)
+Version: 1.0
+Authors@R: c(
+    person("Damianos", "Michaelides", email = "damianosm@cing.ac.cy", role = c("aut", "cre")),
+        person("Maria", "Zanti", role = "aut"),
+	person("Christian", "Carrizosa", role = "aut"),
+    	person("Theodora", "Nearchou", role = "aut"),
+    	person("Kyriaki", "Michailidou", role = "aut"))
+Description: Implementation of case-control data analysis using likelihood ratio
+    approaches and logistic regression for the classification of variants of
+    uncertain significance (VUS) in breast, ovarian, or custom cancer
+    susceptibility genes.
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+Depends: R (>= 3.5)
+Imports: Rcpp, dplyr, tidyr, utils, stats
+LinkingTo: Rcpp (>= 1.0.13)
+NeedsCompilation: yes
+RoxygenNote: 7.3.3
+# VUS: Volume Under the ROC Surface
+# ccLR: case-control Likelihood Ratio
+Packaged: 2026-02-24 18:51:33 UTC; damianosmichaelides
+Author: Damianos Michaelides [aut, cre],
+  Maria Zanti [aut],
+  Christian Carrizosa [aut],
+  Theodora Nearchou [aut],
+  Kyriaki Michailidou [aut]
+Maintainer: Damianos Michaelides <damianosm@cing.ac.cy>
+Repository: CRAN
+Date/Publication: 2026-03-03 10:00:14 UTC
