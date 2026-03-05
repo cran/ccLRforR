@@ -29,7 +29,27 @@ ps4_flag_one <- function(gene, OR, LCI, UCI, pval,
 }
 
 
+
+
+## weighted summary for ages using dosage weights
+wstats <- function(x, w) {
+  temp <- is.finite(x) & is.finite(w) & (w > 0)
+  if (!any(temp)) return(c(NA, NA, NA, NA))
+  x <- x[temp]; w <- w[temp]
+  mu <- sum(w * x) / sum(w)
+  v  <- sum(w * (x - mu)^2) / sum(w)
+  c(mu, sqrt(v), min(x), max(x))
+}
+
+
+
+
 utils::globalVariables(c("incidence_data"))
+
+
+
+
+
 
 
 

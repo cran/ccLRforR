@@ -49,7 +49,7 @@
     Optional. A vector of grid/scaling parameters that is applied to the age-specific relative risk curve. It represents how much more (or less) penetrant a specific variant may be compared to the average pathogenic variant for the same gene. For example: at 1 it assumes average gene-level pathogenicity, at 2 it assumes double the risk, and at 0.5 it assumes half the risk. Defaults to a sequence from 0.5 to 2 by 0.5 increments. 
   }
   \item{penetrance}{
-    A character string specifying the penetrance method. Options are \code{"Dorling"}, \code{"Kuchenbaecker"}, \code{"Antoniou"}, \code{"Fortuno"}, \code{"Li"}, \code{"Hall"}, \code{"Yang"} or \code{"custom"}. Dorling contains breast rates for genes BRCA1, BRCA2, PALB2, CHEK2, and ATM. Kuchenbaecker contains breast and ovarian cancer rates for BRCA1 and BRCA2. Antoniou contains breast cancer rates for BRCA1, BRCA2, and PALB2. Fortuno and Li contain breast cancer rates for TP53. Hall contains ovarian cancer rates for ATM. Yang contains ovarian cancer rates for PALB2. If penetrance is set to \code{"custom"} the next argument \code{"custom_penetrance"} must be specified. 
+    A character string specifying the penetrance method. Options are \code{"Dorling"}, \code{"Kuchenbaecker"}, \code{"Antoniou"}, \code{"Fortuno"}, \code{"Li"}, \code{"Hall"}, \code{"Yang"} or \code{"custom"}. Dorling contains breast rates for genes BRCA1, BRCA2, PALB2, CHEK2, and ATM. Kuchenbaecker contains breast and ovarian cancer rates for BRCA1 and BRCA2. Antoniou contains breast cancer rates for BRCA1, BRCA2, and PALB2. Fortuno and Li contain breast cancer rates for TP53. Hall contains ovarian cancer rates for ATM. Yang contains ovarian cancer rates for PALB2. Momozawa contains breast and ovarian cancer penetrance estimates for BRCA1 and BRCA2 based on Japanese population data. If penetrance is set to \code{"custom"} the next argument \code{"custom_penetrance"} must be specified. 
   }
 \item{custom_penetrance}{
   A data frame containing user-specified age-specific penetrance rates for variant carriers.
@@ -110,7 +110,7 @@ Optional. A character string specifying the output directory. The default is set
 }
 
 \details{
-  The function implements a grid-search case-control likelihood ratio methodology for different genetic variants and optionally stratifies results by the specified variable. The grid search ccLR approach makes use of the grid scaling values (which are subject to choice) to scale the gene-specific average relative risk and identify what risk best fits the case-control data. Only samples diagnosed or interviewed between the ages of 21 and 80 are included in the analysis. The likelihood ratios derived are evaluated against the ACMG/AMP thresholds.
+  The function implements a grid-search case-control likelihood ratio methodology for different genetic variants and optionally stratifies results by the specified variable. The grid search ccLR approach makes use of the grid scaling values (which are subject to choice) to scale the gene-specific average relative risk and identify what risk best fits the case-control data. Only samples diagnosed or interviewed between the ages specified in the age filter are included in the analysis. If built-in penetrance and incidence rates are used, the maximum age is filtered at the age of 80. The likelihood ratios derived are evaluated against the ACMG/AMP thresholds.
 }
 
 \value{
@@ -152,7 +152,7 @@ Optional. A character string specifying the output directory. The default is set
 
 
 \author{
-  Damianos Michaelides \email{damianosm@cing.ac.cy}, Maria Zanti, Christian Carrizosa, Theodora Nearchou, Kyriaki Michailidou
+  Damianos Michaelides \email{damianosm@cing.ac.cy}, Maria Zanti, Denise O' Mahony, Christian Carrizosa, Theodora Nearchou, Kyriaki Michailidou
 }
 
 \references{

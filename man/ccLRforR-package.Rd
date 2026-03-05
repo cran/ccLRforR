@@ -17,11 +17,14 @@ The package is designed for researchers analysing genetic breast, ovarian, or cu
 The ccLR method compares the likelihood of the distribution of the variant of interest among cases and controls, under the hypothesis that the variant is associated with similar risks of the disease in question, as the "average" pathogenic variant, compared to the likelihood under the  hypothesis that it is a benign variant not associated with increased risk.
 
 The grid search ccLR approach makes use of the grid scaling values (which are subject to choice) to scale the gene-specific average relative risk and identify what risk best fits the case-control data.
+
+The package provides an extension to the ccLR framework to imputed genotype data by incorporating genotype dosages as weighted contributions to the likelihood ratio calculation.
     
 The package includes functions for:
     
     \itemize{
       \item ccLR analysis for built-in gene-specific and age-specific penetrances (\code{\link{ps4.ccLR}}).
+      \item ccLR analysis for imputed genotype data using dosage-based likelihood contributions (\code{\link{ccLR.imp}}).
       \item Grid search ccLR analysis that uses grid parameters to scale the penetrance levels and find which best fits the data (\code{\link{ccLR.grid}}).
       \item Likelihood Ratio Test via Logistic Regression to evaluate variants' pathogenicity against the PS4 criteria (\code{\link{ps4.logistic}}). 
     }
@@ -29,7 +32,7 @@ The package includes functions for:
   Key features:
     \itemize{
       \item Optional stratification by country, ethnicity, or study.
-      \item Built-in penetrances by Dorling et. al., 2021, Kuchenbaecker et. al., 2017, Antoniou et. al., 2003, Fortuno et. al., 2024, Li et. al., 2022, Hall et. al., 2021, and Yang et. al., 2020.
+      \item Built-in penetrances by Dorling et. al., 2021, Kuchenbaecker et. al., 2017, Antoniou et. al., 2003, Fortuno et. al., 2024, Li et. al., 2022, Hall et. al., 2021, Yang et. al., 2020, and Momozawa et. al., 2022.
       \item Support for custom cancer types, genes penetrances, and incidence rates.
       \item Exclusion of samples outside the age range 21-80.
     }
@@ -61,14 +64,18 @@ Parsons, M. T. et al. (2024). Evidence-based recommendations for gene-specific A
 Zanti, M. et al. (2023). A likelihood ratio approach for utilizing case-control data in the clinical classification of rare sequence variants: application to BRCA1 and BRCA2. Hum Mutat.
 
 Zanti M et al. (2025). Analysis of more than 400,000 women provides case-control evidence for BRCA1 and BRCA2 variant classification. Nature Communications.
+
+Momozawa, Y., Sasai, R., Usui, Y., Shiraishi, K., Iwasaki, Y., Taniyama, Y., ... & Kubo, M. (2022). Expansion of cancer risk profile for BRCA1 and BRCA2 pathogenic variants. JAMA oncology, 8(6), 871-878.
 }
 
 \seealso{
-  \code{\link{ps4.ccLR}}, \code{\link{ps4.logistic}}, \code{\link{ccLR.grid}}
+  \code{\link{ps4.ccLR}}, \code{\link{ps4.logistic}}, \code{\link{ccLR.grid}}, \code{\link{ccLR.imp}}
 }
 
 \keyword{case-control}
 \keyword{likelihood ratio}
 \keyword{case-control likelihood ratio}
 \keyword{Breast Cancer research}
+\keyword{Ovarian Cancer research}
+\keyword{Cancer research}
 \keyword{genetic analysis}

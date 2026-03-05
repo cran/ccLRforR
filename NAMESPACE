@@ -1,8 +1,8 @@
 useDynLib(ccLRforR, .registration = TRUE)
 importFrom(Rcpp, evalCpp)
-importFrom("utils", "write.csv")
-importFrom("tidyr", "drop_na")
+importFrom(utils, write.csv)
+importFrom(tidyr, drop_na)
 importFrom(dplyr, "%>%")
 importFrom(stats, anova, binomial, glm, na.omit, vcov, confint)
 
-export(ps4.ccLR, ps4.logistic, ccLR.grid)
+export(ps4.ccLR, ps4.logistic, ccLR.grid, ccLR.imp)

@@ -1,31 +1,32 @@
-\name{ps4.ccLR}
+\name{ccLR.imp}
 
-\alias{ps4.ccLR}
+\alias{ccLR.imp}
 
-\title{Case-Control Likelihood Ratio (ccLR) Analysis}
+\title{Case-Control Likelihood Ratio (ccLR) Analysis for Imputed Genotype Data}
 
 \description{
-  This function performs the case-control likelihood ratio analysis based on input genotype and phenotype data, optionally stratifying the results by country, ethnicity, or study. The function supports predefined or custom gene risk rates.
+This function performs the case-control likelihood ratio (ccLR) analysis for genetic variants using imputed genotype dosages and phenotype data. 
+Results can optionally be stratified by country, ethnicity, or study. The function supports predefined penetrance models or user-defined (custom) penetrance and incidence rates.
 }
 
 \usage{
-  ps4.ccLR(cancer = c("breast", "ovarian", "custom"),
-           gene = c("BRCA1", "BRCA2", "PALB2", "CHEK2", "ATM", "TP53", "custom"),
-           genotypes,
-           geno_notation = c("n", "n/n"),
-           phenotype,
-           penetrance = c("Dorling", "Kuchenbaecker", "Antoniou", "Fortuno", 
-                          "Li", "Hall", "Yang", "Momozawa", "custom"),
-           custom_penetrance = NULL, 
-           incidence_rate = c("England", "USA", "Japan", "Finland", "custom"),
-           custom_incidence = NULL,
-           outdir = NULL,
-           output = "ccLR",
-           stratifyby = NULL,
-           agefilter = c(0, 80),
-	   exportcsv = FALSE,
-           progress = FALSE
-  )
+ccLR.imp(
+  cancer = c("breast", "ovarian", "custom"),
+  gene = c("BRCA1", "BRCA2", "PALB2", "CHEK2", "ATM", "TP53", "custom"),
+  genotypes,
+  phenotype,
+  penetrance = c("Dorling", "Kuchenbaecker", "Antoniou", "Fortuno", 
+                 "Li", "Hall", "Yang", "Momozawa", "custom"),
+  custom_penetrance = NULL,
+  incidence_rate = c("England", "USA", "Japan", "Finland", "custom"),
+  custom_incidence = NULL,
+  outdir = NULL,
+  output = "ccLR",
+  stratifyby = NULL,
+  agefilter = c(0, 80),
+  exportcsv = FALSE,
+  progress = FALSE
+)
 }
 
 \arguments{
@@ -36,11 +37,9 @@
     A character string specifying the gene of interest. Options are \code{"BRCA1"}, \code{"BRCA2"}, \code{"PALB2"}, \code{"CHEK2"}, \code{"ATM"}, \code{"TP53"} or \code{"custom"} only.
   }
   \item{genotypes}{
-    A data frame containing genotype data with the first column named \code{"sample_ids"} and subsequent columns for genotype information.
-  }
-    \item{geno_notation}{
-    A character string specifying the format of the genotypes notation. Options are  \code{"n"}, or \code{"n/n"} only. In context, if variants take entries 0 (homozygous reference), 1 (heterozygous), 2 (homozygous alternate), and -1 (missing) then choose \code{geno_notation}=\code{"n"}. Alternatively, if variants take entries 0/0 (homozygous reference), 0/1 (heterozygous), 1/1 (homozygous alternate), and ./. (missing) then choose \code{geno_notation}=\code{"n/n"}. For other formats, please tranform your dataset to one of the accepted/implemented formats. 
-  }
+A data frame containing genotype data with the first column named \code{"sample_ids"} and subsequent columns containing imputed genotype
+dosages (numeric values typically ranging between 0 and 2).  
+}
   \item{phenotype}{
     A data frame containing phenotype data. The required columns depend on the \code{stratifyby} parameter. If single strata is considered, i.e., if \code{stratifyby}=NULL, the data frame must include columns \code{"sample_ids"}, \code{"status"}, \code{"ageInt"}, \code{"AgeDiagIndex"}. If stratification is considered, the data frame must have an additional stratification column (\code{"StudyCountry"}, \code{"ethnicityClass"}, or \code{"study"}) depending on the stratification variable.
   }
@@ -106,7 +105,7 @@ Optional. A character string specifying the output directory. The default is set
 }
 
 \details{
-The function implements the case-control likelihood ratio methodology for different genetic variants and stratifies results by the specified variable. It validates inputs, applies the calculations based on the chosen method, and generates a summary of the results. Only samples diagnosed or interviewed between the ages specified in the age filter are included in the analysis. If built-in penetrance and incidence rates are used, the maximum age is filtered at the age of 80. The likelihood ratios derived are evaluated against the ACMG/AMP thresholds. For the grid search ccLR approach, see \code{\link{ccLR.grid}}.
+The function implements the imputed case-control likelihood ratio methodology for different genetic variants and stratifies results by the specified variable. It validates inputs, applies the calculations based on the chosen method, and generates a summary of the results. Only samples diagnosed or interviewed between the ages specified in the age filter are included in the analysis. If built-in penetrance and incidence rates are used, the maximum age is filtered at the age of 80. The likelihood ratios derived are evaluated against the ACMG/AMP thresholds. In contrast to the \code{\link{ps4.ccLR}} function, the genotypes are imputed dosages.
 }
 
 \value{
@@ -117,39 +116,35 @@ The function implements the case-control likelihood ratio methodology for differ
   
   ## Define simulated inputs - genotypes and phenotype
   
-  genotypes <- data.frame(
-    sample_ids = 1:100,
-    variant1 = rbinom(100, 2, 0.3),
-    variant2 = rbinom(100, 2, 0.2)
-  )
+genotypes <- data.frame(
+  sample_ids = 1:100,
+  variant1 = runif(100, 0, 2),
+  variant2 = runif(100, 0, 2)
+)
+
+phenotype <- data.frame(
+  sample_ids = 1:100,
+  status = rbinom(100, 1, 0.125),
+  ageInt = floor(runif(100, 21, 80)),
+  AgeDiagIndex = floor(runif(100, 21, 80)),
+  StudyCountry = sample(c("USA", "UK", "Canada"), 100, replace = TRUE)
+)
   
-  phenotype <- data.frame(
-    sample_ids = 1:100,
-    status = rbinom(100, 1, 0.5),
-    ageInt = floor(runif(100, 21, 80)),
-    AgeDiagIndex = floor(runif(100, 21, 80)),
-    StudyCountry = sample(c("USA", "UK", "Canada"), 100, replace = TRUE)
-  )
-  
-  # Run the function
-  ps4.ccLR(
-    cancer = "breast",
-    gene = "BRCA1",
-    genotypes = genotypes,
-    geno_notation="n",
-    phenotype = phenotype,
-    penetrance = "Dorling",
-    incidence_rate = "England",
-    stratifyby = "country",
-    exportcsv = TRUE,
-    progress = TRUE
-  )
+ccLR.imp(
+  cancer = "breast",
+  gene = "BRCA1",
+  genotypes = genotypes,
+  phenotype = phenotype,
+  penetrance = "Dorling",
+  incidence_rate = "England",
+  stratifyby = "country",
+  agefilter = c(21, 80),
+  exportcsv = FALSE,
+  progress = TRUE
+)
+
 }
 
-
-\author{
-  Damianos Michaelides \email{damianosm@cing.ac.cy}, Maria Zanti, Denise O' Mahony, Christian Carrizosa, Theodora Nearchou, Kyriaki Michailidou
-}
 
 \references{
 Antoniou, A., Pharoah, P. D. P., Narod, S., Risch, H. A., Eyfjord, J. E., Hopper, J. L., et al. (2003). Average risks of breast and ovarian cancer associated with BRCA1 or BRCA2 mutations detected in case Series unselected for family history: a combined analysis of 22 studies. Am. J. Hum. Genet. 72, 1117–1130.
@@ -178,6 +173,6 @@ Momozawa, Y., Sasai, R., Usui, Y., Shiraishi, K., Iwasaki, Y., Taniyama, Y., ...
 \keyword{case-control}
 \keyword{likelihood ratio}
 \keyword{case-control likelihood ratio}
-\keyword{Breast Cancer research}
 \keyword{genetic variants}
+\keyword{imputed genotypes}
 
