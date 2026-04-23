@@ -154,6 +154,58 @@ ccLR.imp <- function(cancer = c("breast", "ovarian", "custom"),
     }
   }
   
+  ## Age validation checks
+  built_in_ages <- 0:80
+  # built-in penetrance + custom incidence, then custom incidence Age must be 0:80
+  if (!identical(penetrance, "custom") && identical(incidence_rate, "custom")) {
+    if (!identical(custom_incidence$Age, built_in_ages)) {
+      stop(
+        "When using a built-in penetrance with custom incidence rates, ",
+        "the Age column in custom_incidence must be exactly 0 to 80 (integers), ",
+        "to match the age range of the built-in penetrance data."
+      )
+    }
+  }
+  # custom penetrance + built-in incidence, then custom penetrance Age must be 0:80
+  if (identical(penetrance, "custom") && !identical(incidence_rate, "custom")) {
+    if (!identical(custom_penetrance$Age, built_in_ages)) {
+      stop(
+        "When using a built-in incidence rate with custom penetrance, ",
+        "the Age column in custom_penetrance must be exactly 0 to 80 (integers), ",
+        "to match the age range of the built-in incidence data."
+      )
+    }
+  }
+  # custom penetrance + custom incidence, then Age columns must be identical
+  if (identical(penetrance, "custom") && identical(incidence_rate, "custom")) {
+    if (!identical(custom_penetrance$Age, custom_incidence$Age)) {
+      stop(
+        "When using both custom penetrance and custom incidence rates, ",
+        "the Age columns in custom_penetrance and custom_incidence must be identical ",
+        "(same values, same length, same order)."
+      )
+    }
+  }
+  # agefilter must lie within the age range of the data being used
+  data_age_min <- if (identical(penetrance, "custom") && identical(incidence_rate, "custom")) {
+    min(custom_penetrance$Age)
+  } else {
+    0L
+  }
+  
+  data_age_max <- if (identical(penetrance, "custom") && identical(incidence_rate, "custom")) {
+    max(custom_penetrance$Age)
+  } else {
+    80L
+  }
+  
+  if (agefilter[1] < data_age_min || agefilter[2] > data_age_max) {
+    stop(
+      "agefilter [", agefilter[1], ", ", agefilter[2], "] is outside the age range ",
+      "covered by the data [", data_age_min, ", ", data_age_max, "]. ",
+      "Please adjust agefilter to fall within this range."
+    )
+  }
   
   
   if (identical(penetrance, "custom")) {
@@ -241,7 +293,12 @@ ccLR.imp <- function(cancer = c("breast", "ovarian", "custom"),
   
   list <- list(colnames(df))
   
-  colnum <- ncol(df) - 4
+  if (is.null(stratifyby)) {
+    colnum <- ncol(df) - 3
+  } else {
+    colnum <- ncol(df) - 4
+  }
+  
   total_variants <- colnum - 1
   
   results <- data.frame()

@@ -109,7 +109,12 @@ ps4.logistic <- function(gene = c("BRCA1", "BRCA2", "PALB2", "CHEK2", "ATM", "TP
   
   list <- list(colnames(df))
   
-  colnum <- ncol(df) - 4
+  if (is.null(stratifyby)) {
+    colnum <- ncol(df) - 3
+  } else {
+    colnum <- ncol(df) - 4
+  }
+  
   total_variants <- colnum - 1
   
   results <- data.frame()

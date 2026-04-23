@@ -1,12 +1,12 @@
-79be1ea0d07e4ee1c874daa32f3be886 *DESCRIPTION
+2c115f8e26b4654ea595ad964444174f *DESCRIPTION
 ee6403c02dfbe9afb879355261d624a4 *NAMESPACE
-d328fab3ced4f868a9903cb9ac950158 *R/PS4_ccLR.R
-30e9c849cf28100519de30ccba4dab5f *R/PS4_logistic.R
+f6b37d81ee8c5676ff0a7d5976e16e1d *R/PS4_ccLR.R
+2742ae7f1c471a9445cfdc7917a20b68 *R/PS4_logistic.R
 ad9601ed8dfb9750c0b395af315bd793 *R/RcppExports.R
-02f6c5086cfb779c4d40de1d586d8795 *R/ccLR_grid.R
-08d72206efd96787e0bd3dcf3a119576 *R/ccLR_imp.R
+ae28f2c0662e01da4acab6f7fe4f42ad *R/ccLR_grid.R
+d6b51279c34078f27e3ea93cf759b75d *R/ccLR_imp.R
 261af2b4ffdf6ea33df983b133903e45 *R/hidden.R
-d3b5cd9b430590f72525392b23deea7a *build/partial.rdb
+2a72da7dbeecf8519cdf67afd34b9a75 *build/partial.rdb
 1956de58ab150c077a59a3037af5e2a7 *data/Antoniou.rda
 5ee1b85861927fe0ed18601e8651f36a *data/Dorling.rda
 69eac358dd8a66e97a5bc382809b4fd8 *data/Fortuno.rda
@@ -14,7 +14,7 @@ d3b5cd9b430590f72525392b23deea7a *build/partial.rdb
 428535a72eff0d10f7a7618c0af34cf4 *data/Kuchenbaecker.rda
 e7fbee03b7825407ea0010a394f3088a *data/Li.rda
 abdc2ed271abbbdc302b31af10f6fecb *data/Momozawa.rda
-150a4760c1b5b632009c4961086c491b *data/Yang.rda
+9896b31aa09367163bb5710dd2951435 *data/Yang.rda
 3a5b01192ea7ef7aec9bfb2e96f224ae *data/incidence_data.rda
 ffdb438a1efb04d3865df4a259c94acc *man/PS4_ccLR.Rd
 cfe65fb641c2fe74edc1dd0b66a73f7c *man/PS4_logistic.Rd
